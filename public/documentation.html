@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wuai - Technical Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap');
+    
+    :root {
+      --primary: #2D9D5B;
+      --accent: #8B5CF6;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+      --code-bg: #f3f4f6;
+      --table-header: #f9fafb;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 60px;
+      font-size: 11pt;
+    }
+    
+    @media print {
+      body {
+        padding: 0;
+        font-size: 10pt;
+        line-height: 1.5;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      h1, h2, h3 {
+        page-break-after: avoid;
+      }
+      
+      pre, table, .code-block {
+        page-break-inside: avoid;
+      }
+      
+      a {
+        text-decoration: none;
+        color: var(--text);
+      }
+    }
+    
+    /* Header */
+    .doc-header {
+      text-align: center;
+      padding-bottom: 30px;
+      border-bottom: 3px solid var(--primary);
+      margin-bottom: 40px;
+    }
+    
+    .doc-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32pt;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .doc-header .subtitle {
+      font-size: 14pt;
+      color: var(--text-light);
+    }
+    
+    .doc-header .date {
+      font-size: 10pt;
+      color: var(--text-light);
+      margin-top: 10px;
+    }
+    
+    /* Table of Contents */
+    .toc {
+      background: var(--table-header);
+      padding: 25px 30px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+    
+    .toc h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14pt;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .toc ol {
+      columns: 2;
+      column-gap: 40px;
+      padding-left: 20px;
+    }
+    
+    .toc li {
+      margin-bottom: 6px;
+      font-size: 10pt;
+    }
+    
+    .toc a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    
+    /* Section Headers */
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18pt;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13pt;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 25px;
+      margin-bottom: 12px;
+    }
+    
+    h4 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 18px;
+      margin-bottom: 10px;
+    }
+    
+    /* Paragraphs */
+    p {
+      margin-bottom: 12px;
+    }
+    
+    /* Lists */
+    ul, ol {
+      margin-bottom: 15px;
+      padding-left: 25px;
+    }
+    
+    li {
+      margin-bottom: 5px;
+    }
+    
+    /* Code */
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 9pt;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 9pt;
+      background: var(--code-bg);
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 15px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 10pt;
+    }
+    
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    
+    th {
+      background: var(--table-header);
+      font-weight: 600;
+    }
+    
+    /* Info boxes */
+    .info-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--primary);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .warning-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    /* Architecture diagram */
+    .diagram {
+      font-family: 'Fira Code', monospace;
+      font-size: 9pt;
+      background: var(--code-bg);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+      white-space: pre;
+    }
+    
+    /* Feature list */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-item {
+      background: var(--table-header);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .feature-item strong {
+      color: var(--primary);
+    }
+    
+    /* Footer */
+    .doc-footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+      color: var(--text-light);
+      font-size: 9pt;
+    }
+    
+    /* Print button */
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(45, 157, 91, 0.3);
+    }
+    
+    .print-btn:hover {
+      background: #258a4e;
+    }
+    
+    @media print {
+      .print-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="print-btn" onclick="window.print()">🖨️ Print to PDF</button>
+  
+  <header class="doc-header">
+    <h1>🦑 Wuai</h1>
+    <p class="subtitle">Technical Documentation</p>
+    <p class="date">December 2024</p>
+  </header>
+
+  <nav class="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#product-concept">Product Concept</a></li>
+      <li><a href="#tech-stack">Technology Stack</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#design-system">Design System</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#edge-functions">Backend Edge Functions</a></li>
+      <li><a href="#system-prompts">System Prompts</a></li>
+      <li><a href="#voice">Voice Implementation</a></li>
+      <li><a href="#media">Media Generation</a></li>
+      <li><a href="#auth">Authentication</a></li>
+      <li><a href="#settings">Settings & Config</a></li>
+      <li><a href="#database">Database Schema</a></li>
+      <li><a href="#platform">Platform Considerations</a></li>
+    </ol>
+  </nav>
+
+  <section id="overview">
+    <h2>1. Overview</h2>
+    <p><strong>Wuai</strong> is a mobile-first, single-page web application designed for children ages 3-12. It enables children to ask voice questions and receive age-appropriate spoken answers with supporting educational AI-generated media. The app runs in a browser (iOS Safari, Android Chrome) and behaves like a native app.</p>
+    
+    <h3>Key Capabilities</h3>
+    <ul>
+      <li>Voice input (speech-to-text)</li>
+      <li>AI-generated educational answers</li>
+      <li>Text-to-speech output (native + premium ElevenLabs voices)</li>
+      <li>AI-generated educational images (realistic, cartoon, diagram styles)</li>
+      <li>Multi-child profile support</li>
+      <li>Parent controls and settings</li>
+      <li>Q&A history tracking</li>
+      <li>Visual sand timer for screen time management</li>
+    </ul>
+  </section>
+
+  <section id="product-concept">
+    <h2>2. Product Concept</h2>
+    
+    <h3>Core Philosophy</h3>
+    <ul>
+      <li><strong>Educational integrity:</strong> All answers and media must be scientifically accurate and factually correct</li>
+      <li><strong>Age-appropriate content:</strong> Responses dynamically adjust complexity based on child's age range</li>
+      <li><strong>Child-centered UX:</strong> Minimal UI, maximum visual immersion, no scrolling, large touch targets</li>
+      <li><strong>Parental control:</strong> Parents manage settings, profiles, and can set screen time limits</li>
+      <li><strong>Conversational context:</strong> Follow-up questions maintain context for connected answers</li>
+    </ul>
+    
+    <h3>Target User Experience</h3>
+    <ol>
+      <li>Child taps the "Ask" button</li>
+      <li>Child speaks their question</li>
+      <li>App immediately echoes the question back and says "Let me think, [Name]!"</li>
+      <li>AI generates an age-appropriate answer</li>
+      <li>Answer is spoken aloud while educational images display</li>
+      <li>Child can ask follow-up questions ("Why?", "Tell me more!")</li>
+    </ol>
+  </section>
+
+  <section id="tech-stack" class="page-break">
+    <h2>3. Technology Stack</h2>
+    
+    <h3>Frontend</h3>
+    <table>
+      <tr><th>Technology</th><th>Purpose</th></tr>
+      <tr><td>React 18 + TypeScript</td><td>UI framework</td></tr>
+      <tr><td>Vite</td><td>Build tooling</td></tr>
+      <tr><td>Tailwind CSS</td><td>Styling</td></tr>
+      <tr><td>shadcn/ui</td><td>Component library</td></tr>
+      <tr><td>React Router</td><td>Navigation</td></tr>
+      <tr><td>Tanstack React Query</td><td>Data fetching</td></tr>
+    </table>
+    
+    <h3>Backend (Lovable Cloud / Supabase)</h3>
+    <table>
+      <tr><th>Technology</th><th>Purpose</th></tr>
+      <tr><td>Supabase</td><td>Database, auth, edge functions</td></tr>
+      <tr><td>Deno</td><td>Edge function runtime</td></tr>
+      <tr><td>PostgreSQL</td><td>Database</td></tr>
+    </table>
+    
+    <h3>AI Services</h3>
+    <table>
+      <tr><th>Service</th><th>Model</th><th>Use Case</th></tr>
+      <tr><td>Lovable AI Gateway</td><td>google/gemini-2.5-flash</td><td>Default answers</td></tr>
+      <tr><td>Lovable AI Gateway</td><td>google/gemini-2.5-flash-lite</td><td>Articulation, planning</td></tr>
+      <tr><td>Lovable AI Gateway</td><td>google/gemini-2.5-flash-image-preview</td><td>Image generation</td></tr>
+      <tr><td>OpenAI</td><td>whisper-1</td><td>iOS transcription</td></tr>
+      <tr><td>ElevenLabs</td><td>eleven_turbo_v2_5</td><td>Premium TTS</td></tr>
+    </table>
+    
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>DM Sans</strong> - Primary sans-serif font</li>
+      <li><strong>Outfit</strong> - Display/heading font</li>
+      <li><strong>Fredoka</strong> - Fun/playful font (used for "Wuai" logo)</li>
+    </ul>
+  </section>
+
+  <section id="architecture">
+    <h2>4. Architecture</h2>
+    
+    <h3>Application Structure</h3>
+    <pre>
+src/
+├── components/           # React components
+│   ├── ui/              # shadcn/ui components
+│   ├── MainView.tsx     # Core app interface
+│   ├── MediaGallery.tsx # Image display carousel
+│   ├── MicButton.tsx    # Voice input button
+│   ├── SquidMascot.tsx  # Animated mascot
+│   └── ...
+├── contexts/
+│   └── SettingsContext.tsx  # Global settings state
+├── hooks/
+│   ├── useVoiceInput.ts     # Cross-platform voice input
+│   ├── useSpeechSynthesis.ts # Native TTS
+│   ├── useElevenLabsTTS.ts   # Premium TTS
+│   └── useAuth.ts           # Authentication
+├── pages/
+│   ├── Index.tsx        # Main app entry
+│   ├── Landing.tsx      # Marketing/demo page
+│   ├── Auth.tsx         # Login/signup
+│   └── AuthCallback.tsx # OAuth callback handler
+├── utils/
+│   └── platform.ts      # Platform detection
+└── integrations/
+    └── supabase/        # Supabase client & types
+
+supabase/functions/      # Edge functions (backend)
+├── answer/              # AI answer generation
+├── articulate/          # Question rephrasing
+├── generate-image/      # Single image generation
+├── media/               # MECE image plan generation
+├── transcribe/          # Audio transcription (Whisper)
+├── elevenlabs-tts/      # Premium voice synthesis
+└── unsplash/            # (legacy) Photo search</pre>
+
+    <h3>Data Flow</h3>
+    <pre>
+[Child Voice] → [Voice Input Hook] → [Transcription]
+                                           ↓
+                              [Articulate Edge Function]
+                                           ↓
+                              [Answer Edge Function]
+                                           ↓
+                    [Generate-Image Edge Function (x3)]
+                                           ↓
+                    [Text-to-Speech] + [MediaGallery Display]</pre>
+  </section>
+
+  <section id="design-system" class="page-break">
+    <h2>5. Design System</h2>
+    
+    <h3>Color Palette</h3>
+    <table>
+      <tr><th>Token</th><th>HSL Value</th><th>Usage</th></tr>
+      <tr><td><code>--primary</code></td><td>145 65% 42%</td><td>Lime green - main brand color</td></tr>
+      <tr><td><code>--accent</code></td><td>270 70% 60%</td><td>Violet - accent/highlight</td></tr>
+      <tr><td><code>--background</code></td><td>0 0% 100%</td><td>White background</td></tr>
+      <tr><td><code>--foreground</code></td><td>220 10% 25%</td><td>Dark gray text</td></tr>
+      <tr><td><code>--muted</code></td><td>220 5% 96%</td><td>Light gray for muted elements</td></tr>
+    </table>
+    
+    <h3>Semantic Colors</h3>
+    <ul>
+      <li><code>--bubble-child</code>: Light lime background for question bubbles</li>
+      <li><code>--bubble-assistant</code>: White with shadow for answer bubbles</li>
+      <li><code>--mic-gradient-start/end</code>: Gradient for mic button</li>
+      <li><code>--mic-listening</code>: Violet for active listening state</li>
+    </ul>
+    
+    <h3>Typography Scale</h3>
+    <ul>
+      <li><strong>font-sans:</strong> DM Sans (body text)</li>
+      <li><strong>font-display:</strong> Outfit (headings)</li>
+      <li><strong>font-fun:</strong> Fredoka (playful elements, logo)</li>
+    </ul>
+    
+    <h3>Animation Tokens</h3>
+    <table>
+      <tr><th>Name</th><th>Description</th></tr>
+      <tr><td><code>animate-pulse-ring</code></td><td>Pulsing ring effect for mic</td></tr>
+      <tr><td><code>animate-bounce-gentle</code></td><td>Subtle bounce (2.5s cycle)</td></tr>
+      <tr><td><code>animate-float</code></td><td>Floating effect (4s cycle)</td></tr>
+      <tr><td><code>animate-breathe</code></td><td>Breathing scale (4s cycle)</td></tr>
+      <tr><td><code>animate-fade-in-up</code></td><td>Entry animation</td></tr>
+    </table>
+    
+    <h3>Shadow Tokens</h3>
+    <ul>
+      <li><code>shadow-clean</code>: Subtle card shadow</li>
+      <li><code>shadow-clean-lg</code>: Larger shadow for elevated elements</li>
+      <li><code>shadow-glow</code>: Primary color glow</li>
+      <li><code>shadow-glow-accent</code>: Accent color glow</li>
+    </ul>
+  </section>
+
+  <section id="features">
+    <h2>6. Features</h2>
+    
+    <h3>1. Voice Input</h3>
+    <ul>
+      <li><strong>Web Speech API</strong> (Chrome/Android): Native browser speech recognition</li>
+      <li><strong>Custom Recorder</strong> (iOS): MediaRecorder + OpenAI Whisper transcription</li>
+      <li><strong>Timeouts:</strong> 5s silence timeout, 8s max recording duration</li>
+      <li><strong>Feedback:</strong> Immediate question echo while processing</li>
+    </ul>
+    
+    <h3>2. Question Articulation</h3>
+    <p>Questions are rephrased for clarity and grammar while preserving meaning. This:</p>
+    <ul>
+      <li>Confirms the question was understood</li>
+      <li>Teaches children proper question formation</li>
+      <li>Provides cleaner input for AI answer generation</li>
+    </ul>
+    
+    <h3>3. AI Answers</h3>
+    <ul>
+      <li>Calibrated to child's age range (3-4, 5-6, 7-8, 9-10, 11-12)</li>
+      <li>Adjustable length via <code>answerLength</code> setting (0.5x to 2.0x)</li>
+      <li>Depth levels for follow-up questions (1-4)</li>
+      <li>Conversation context maintained for connected answers</li>
+      <li>No markdown or formatting (optimized for TTS)</li>
+      <li>Personalized with child's name</li>
+    </ul>
+    
+    <h3>4. Educational Media</h3>
+    <p>Three AI-generated images per answer:</p>
+    <ol>
+      <li><strong>Realistic:</strong> Photo-style educational image</li>
+      <li><strong>Cartoon:</strong> Educational animation style (scientifically accurate)</li>
+      <li><strong>Diagram:</strong> Infographic or cross-section</li>
+    </ol>
+    
+    <h3>5. Text-to-Speech</h3>
+    <ul>
+      <li><strong>Native voices:</strong> Browser's speechSynthesis API</li>
+      <li><strong>Premium voices:</strong> ElevenLabs with 6 curated child-friendly voices</li>
+      <li><strong>Speed control:</strong> 0.75x to 1.25x range</li>
+      <li><strong>iOS resilience:</strong> Chunked utterances to prevent 15s timeout</li>
+    </ul>
+    
+    <h3>6. Additional Features</h3>
+    <ul>
+      <li><strong>Sand Timer:</strong> Visual countdown (1-60 minutes) for screen time</li>
+      <li><strong>Multi-Child Profiles:</strong> Up to 5 profiles per parent, quick-switch buttons</li>
+      <li><strong>Q&A History:</strong> Persistent history, color-coded by child</li>
+    </ul>
+  </section>
+
+  <section id="edge-functions" class="page-break">
+    <h2>7. Backend Edge Functions</h2>
+    
+    <h3>/answer - Answer Generation</h3>
+    <p><strong>Purpose:</strong> Generate age-appropriate educational answers</p>
+    <h4>Input:</h4>
+    <pre>{
+  question: string,
+  ageRange: "3-4" | "5-6" | "7-8" | "9-10" | "11-12",
+  depthLevel: 1 | 2 | 3 | 4,
+  aiProvider: "gemini-flash" | "gemini-pro" | "gpt" | "perplexity",
+  conversationHistory: Array&lt;{role: string, content: string}&gt;,
+  answerLength: number, // 0.5 to 2.0
+  childName: string
+}</pre>
+    <h4>Output:</h4>
+    <pre>{
+  answer: string,
+  depthLevel: number,
+  providerUsed: string,
+  perplexityImages?: string[] // Only if using Perplexity
+}</pre>
+    
+    <h3>/articulate - Question Rephrasing</h3>
+    <p><strong>Purpose:</strong> Clean up and rephrase child's question</p>
+    <p><strong>Model:</strong> <code>google/gemini-2.5-flash-lite</code> (fast)</p>
+    
+    <h3>/generate-image - Single Image Generation</h3>
+    <p><strong>Purpose:</strong> Generate one educational image</p>
+    <p><strong>Model:</strong> <code>google/gemini-2.5-flash-image-preview</code></p>
+    
+    <h3>/transcribe - Audio Transcription</h3>
+    <p><strong>Purpose:</strong> Convert audio to text (iOS voice input)</p>
+    <p><strong>Service:</strong> OpenAI Whisper API (<code>whisper-1</code>)</p>
+    
+    <h3>/elevenlabs-tts - Premium Text-to-Speech</h3>
+    <p><strong>Purpose:</strong> Generate high-quality spoken audio</p>
+    <p><strong>Service:</strong> ElevenLabs API (<code>eleven_turbo_v2_5</code>)</p>
+  </section>
+
+  <section id="system-prompts">
+    <h2>8. System Prompts</h2>
+    
+    <h3>Answer Generation System Prompt</h3>
+    <pre>You are a knowledgeable science educator for children.
+You are talking to {ageDescription}
+{nameInstruction}
+
+RULES:
+1. {depthInstruction}
+2. Be factual and scientific - give real information
+3. Use proper terminology but explain it briefly if needed
+4. Be concise and direct - no filler words
+5. Treat the child as intelligent, never condescending
+6. NEVER discuss: violence, sexual content, scary topics
+7. If asked about inappropriate topics, redirect
+8. NEVER use asterisks, markdown, or formatting
+9. Write in plain conversational text only
+10. Use conversation context for follow-up questions
+11. Make learning fun while staying accurate
+12. Focus ONLY on answering - no image descriptions</pre>
+
+    <h3>Age Descriptions</h3>
+    <table>
+      <tr><th>Age</th><th>Description</th></tr>
+      <tr><td>3-4</td><td>Use simple words and short sentences. 2 sentences max.</td></tr>
+      <tr><td>5-6</td><td>Use simple but accurate words. 2 sentences max.</td></tr>
+      <tr><td>7-8</td><td>Use proper scientific terms with brief explanations. 3 sentences max.</td></tr>
+      <tr><td>9-10</td><td>Use scientific terminology appropriately. 3 sentences max.</td></tr>
+      <tr><td>11-12</td><td>Use full scientific vocabulary. 3 sentences max.</td></tr>
+    </table>
+    
+    <h3>Articulation System Prompt</h3>
+    <pre>You are helping a child learn to ask questions well.
+Take their question and rephrase it into a clear, well-formed question.
+
+RULES:
+1. Keep it SHORT - one sentence only
+2. Keep the same meaning and topic
+3. Fix grammar and make it clearer
+4. Use simple words appropriate for a child
+5. Do NOT add any extra information or answers
+6. Just output the rephrased question
+7. End with a question mark
+
+Examples:
+- "why sky blue" → "Why is the sky blue?"
+- "dinosaurs where" → "Where did dinosaurs live?"</pre>
+  </section>
+
+  <section id="voice" class="page-break">
+    <h2>9. Voice Implementation</h2>
+    
+    <h3>Cross-Platform Architecture</h3>
+    <pre>// Platform detection (src/utils/platform.ts)
+export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+export const hasWebSpeech = "SpeechRecognition" in window;
+
+// Use Web Speech API only on non-iOS platforms
+export const useWebSpeech = !isIOS && hasWebSpeech;
+
+// Use custom recorder + backend transcription on iOS
+export const useCustomRecorder = isIOS;</pre>
+
+    <h3>Web Speech API Path (Desktop/Android)</h3>
+    <ol>
+      <li>Initialize <code>SpeechRecognition</code> with <code>continuous: true</code>, <code>interimResults: true</code></li>
+      <li>Set 5s silence timeout after last speech</li>
+      <li>Set 8s maximum recording duration</li>
+      <li>On <code>onend</code>, call transcription handler with final transcript</li>
+    </ol>
+    
+    <h3>Custom Recorder Path (iOS)</h3>
+    <ol>
+      <li>Check for embedded browser context (block in preview iframes)</li>
+      <li>Request microphone access via <code>getUserMedia</code></li>
+      <li>Create <code>MediaRecorder</code> with best available format</li>
+      <li>Record audio chunks</li>
+      <li>On stop, convert to Base64 and send to <code>/transcribe</code> endpoint</li>
+      <li>OpenAI Whisper transcribes and returns text</li>
+    </ol>
+    
+    <h3>ElevenLabs Premium Voices</h3>
+    <table>
+      <tr><th>ID</th><th>Name</th><th>Gender</th></tr>
+      <tr><td>EXAVITQu4vr4xnSDxMaL</td><td>Sarah</td><td>Female</td></tr>
+      <tr><td>FGY2WhTYpPnrIDTdsKH5</td><td>Laura</td><td>Female</td></tr>
+      <tr><td>pFZP5JQG7iQjIQuC4Bku</td><td>Lily</td><td>Female</td></tr>
+      <tr><td>onwK4e9ZLuTAKqWW03F9</td><td>Daniel</td><td>Male</td></tr>
+      <tr><td>JBFqnCBsd6RMkjVDRZzb</td><td>George</td><td>Male</td></tr>
+      <tr><td>TX3LPaxmHKxFdv7VOQHJ</td><td>Liam</td><td>Male</td></tr>
+    </table>
+  </section>
+
+  <section id="media">
+    <h2>10. Media Generation</h2>
+    
+    <h3>Image Types</h3>
+    <table>
+      <tr><th>Type</th><th>Description</th></tr>
+      <tr><td>Realistic</td><td>Photo-style educational imagery, high-quality, clear composition</td></tr>
+      <tr><td>Cartoon</td><td>Educational animation style, scientifically accurate (no anthropomorphization)</td></tr>
+      <tr><td>Diagram</td><td>Infographics and cross-sections, process explanations</td></tr>
+    </table>
+    
+    <h3>Age-Appropriate Styling</h3>
+    <table>
+      <tr><th>Age Range</th><th>Realistic</th><th>Cartoon</th><th>Diagram</th></tr>
+      <tr><td>3-4, 5-6</td><td>Gentle lighting, warm colors</td><td>Simple shapes, friendly</td><td>Very simple, soft colors</td></tr>
+      <tr><td>7-8</td><td>Clear details, educational</td><td>Clean lines, quality animation</td><td>Labels, step-by-step</td></tr>
+      <tr><td>9-10, 11-12</td><td>Highly realistic, detailed</td><td>Stylized but accurate</td><td>Technical infographics</td></tr>
+    </table>
+    
+    <h3>Generation Flow</h3>
+    <ol>
+      <li>User asks question</li>
+      <li>Three parallel image generation requests (realistic, cartoon, diagram)</li>
+      <li>Each uses <code>/generate-image</code> with <code>google/gemini-2.5-flash-image-preview</code></li>
+      <li>Images display progressively as they complete</li>
+      <li>Retry logic (up to 2 attempts) for failed generations</li>
+    </ol>
+  </section>
+
+  <section id="auth" class="page-break">
+    <h2>11. Authentication & User Management</h2>
+    
+    <h3>OAuth Providers</h3>
+    <ul>
+      <li><strong>Google</strong> (primary)</li>
+      <li><strong>Facebook</strong></li>
+    </ul>
+    
+    <h3>Authentication Flow</h3>
+    <ol>
+      <li>User clicks "Sign In" on Landing or Auth page</li>
+      <li>Supabase initiates OAuth flow</li>
+      <li>User authenticates with provider</li>
+      <li>Callback redirects to <code>/auth/callback</code></li>
+      <li><code>exchangeCodeForSession</code> finalizes session</li>
+      <li>Redirect to <code>/app</code> with authenticated user</li>
+    </ol>
+    
+    <h3>Session Management</h3>
+    <ul>
+      <li>Supabase handles session persistence</li>
+      <li><code>onAuthStateChange</code> listener updates React state</li>
+      <li>Settings sync to cloud when authenticated</li>
+      <li>Guest mode supported (localStorage only)</li>
+    </ul>
+  </section>
+
+  <section id="settings">
+    <h2>12. Settings & Configuration</h2>
+    
+    <h3>User Settings Schema</h3>
+    <pre>interface Settings {
+  ageRange: "3-4" | "5-6" | "7-8" | "9-10" | "11-12";
+  childName: string;
+  voiceInput: boolean;
+  voiceOutput: boolean;
+  selectedVoice: string;     // Voice ID
+  voiceSpeed: number;        // 0.75 to 1.25
+  showMedia: boolean;
+  aiProvider: "gemini-flash" | "gemini-pro" | "gpt" | "perplexity";
+  pin: string;
+  timerMinutes: number;      // 0-60
+  answerLength: number;      // 0.5 to 2.0 (default: 0.7)
+  isLocked: boolean;
+  questionHistory: QuestionHistoryItem[];
+}</pre>
+
+    <h3>Storage Strategy</h3>
+    <ul>
+      <li><strong>Guest users:</strong> localStorage only</li>
+      <li><strong>Authenticated users:</strong> localStorage + Supabase <code>user_settings</code> table</li>
+      <li>Settings sync on login/update</li>
+      <li>Child profiles stored in <code>children</code> table</li>
+    </ul>
+  </section>
+
+  <section id="database">
+    <h2>13. Database Schema</h2>
+    
+    <h3>profiles</h3>
+    <pre>CREATE TABLE profiles (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL UNIQUE,
+  email TEXT,
+  display_name TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
+);</pre>
+
+    <h3>children</h3>
+    <pre>CREATE TABLE children (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name TEXT NOT NULL,
+  age_range TEXT DEFAULT '5-6',
+  avatar TEXT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
+);</pre>
+
+    <h3>user_settings</h3>
+    <pre>CREATE TABLE user_settings (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL UNIQUE,
+  age_range TEXT DEFAULT '5-6',
+  child_name TEXT,
+  voice_input BOOLEAN DEFAULT true,
+  voice_output BOOLEAN DEFAULT true,
+  selected_voice TEXT,
+  voice_speed NUMERIC DEFAULT 1.0,
+  show_media BOOLEAN DEFAULT true,
+  ai_provider TEXT DEFAULT 'gpt',
+  pin TEXT DEFAULT '1234',
+  timer_minutes INTEGER DEFAULT 0,
+  answer_length NUMERIC DEFAULT 0.7,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
+);</pre>
+
+    <h3>qa_history</h3>
+    <pre>CREATE TABLE qa_history (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  child_id UUID REFERENCES children(id),
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  media_urls TEXT[],
+  created_at TIMESTAMPTZ
+);</pre>
+  </section>
+
+  <section id="platform" class="page-break">
+    <h2>14. Platform-Specific Considerations</h2>
+    
+    <h3>iOS Safari</h3>
+    <ol>
+      <li><strong>Audio unlock:</strong> Silent utterance required on first tap</li>
+      <li><strong>Speech synthesis timeout:</strong> 15s max per utterance (chunked implementation)</li>
+      <li><strong>Web Speech API:</strong> Not supported, use custom recorder + Whisper</li>
+      <li><strong>Embedded preview:</strong> getUserMedia blocked, show friendly error</li>
+    </ol>
+    
+    <h3>iOS Chrome (CriOS)</h3>
+    <p>Same limitations as Safari (uses Safari's WebKit engine)</p>
+    
+    <h3>Android Chrome</h3>
+    <ul>
+      <li>Full Web Speech API support</li>
+      <li>Standard speechSynthesis support</li>
+      <li>No special handling needed</li>
+    </ul>
+    
+    <h3>Desktop Chrome</h3>
+    <ul>
+      <li>Full feature support</li>
+      <li>Best development/testing environment</li>
+    </ul>
+    
+    <h3>Environment Variables</h3>
+    <h4>Client-Side (Vite)</h4>
+    <pre>VITE_SUPABASE_URL=https://[project-id].supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=eyJ...
+VITE_SUPABASE_PROJECT_ID=[project-id]</pre>
+    
+    <h4>Server-Side (Edge Function Secrets)</h4>
+    <pre>LOVABLE_API_KEY=***        # Lovable AI Gateway
+OPENAI_API_KEY=***         # Whisper transcription
+PERPLEXITY_API_KEY=***     # Optional: Perplexity provider
+ELEVENLABS_API_KEY=***     # Premium TTS
+UNSPLASH_ACCESS_KEY=***    # Legacy: photo search</pre>
+  </section>
+
+  <footer class="doc-footer">
+    <p><strong>Wuai Technical Documentation</strong></p>
+    <p>Generated December 2024</p>
+    <p>Version 1.0</p>
+  </footer>
+</body>
+</html>

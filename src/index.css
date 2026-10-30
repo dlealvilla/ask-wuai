@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=Fredoka:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Clean Modern - White with Lime & Violet */
+    --background: 0 0% 100%;
+    --foreground: 220 10% 25%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 25%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 10% 25%;
+
+    /* Primary - Lime Scooter Green (softer, more muted) */
+    --primary: 145 65% 42%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Soft gray */
+    --secondary: 220 5% 96%;
+    --secondary-foreground: 220 10% 30%;
+
+    /* Muted - Light gray */
+    --muted: 220 5% 96%;
+    --muted-foreground: 220 5% 50%;
+
+    /* Accent - Violet */
+    --accent: 270 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success - Lime variation */
+    --success: 145 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    /* Info - Soft violet */
+    --info: 270 50% 75%;
+    --info-foreground: 270 60% 25%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 5% 90%;
+    --input: 220 5% 90%;
+    --ring: 145 65% 42%;
+
+    --radius: 1rem;
+
+    /* Custom tokens - Clean aesthetic */
+    --bubble-child: 145 40% 95%;
+    --bubble-assistant: 0 0% 100%;
+    --mic-gradient-start: 145 60% 45%;
+    --mic-gradient-end: 145 65% 38%;
+    --mic-listening: 270 70% 60%;
+    --parent-bg: 220 5% 98%;
+    
+    /* Fresh color tokens */
+    --lime-soft: 145 50% 92%;
+    --lime-medium: 145 55% 75%;
+    --violet-soft: 270 50% 92%;
+    --violet-medium: 270 60% 75%;
+    --neutral-light: 220 5% 96%;
+  }
+
+  .dark {
+    --background: 220 10% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 10% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 10% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 145 60% 50%;
+    --primary-foreground: 220 10% 8%;
+
+    --secondary: 220 8% 15%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 220 8% 18%;
+    --muted-foreground: 220 5% 60%;
+
+    --accent: 270 65% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 145 55% 45%;
+    --success-foreground: 220 10% 8%;
+
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 8% 18%;
+    --input: 220 8% 18%;
+    --ring: 145 60% 50%;
+
+    --bubble-child: 220 10% 14%;
+    --bubble-assistant: 220 10% 12%;
+    --parent-bg: 240 10% 6%;
+    
+    --lime-soft: 145 35% 18%;
+    --lime-medium: 145 45% 30%;
+    --violet-soft: 270 30% 18%;
+    --violet-medium: 270 40% 35%;
+    --neutral-light: 220 8% 15%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans font-medium;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    letter-spacing: -0.01em;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .bubble-child {
+    background: hsl(var(--bubble-child));
+  }
+
+  .bubble-assistant {
+    background: hsl(var(--bubble-assistant));
+    box-shadow: 0 2px 12px -2px hsl(240 10% 20% / 0.08);
+  }
+
+  .mic-gradient {
+    background: linear-gradient(
+      145deg,
+      hsl(var(--mic-gradient-start)) 0%,
+      hsl(var(--mic-gradient-end)) 100%
+    );
+  }
+
+  .mic-listening {
+    background: linear-gradient(
+      145deg,
+      hsl(var(--mic-listening)) 0%,
+      hsl(270 75% 55%) 100%
+    );
+  }
+  
+  /* Fresh color utilities */
+  .bg-lime-soft { background: hsl(var(--lime-soft)); }
+  .bg-lime-medium { background: hsl(var(--lime-medium)); }
+  .bg-violet-soft { background: hsl(var(--violet-soft)); }
+  .bg-violet-medium { background: hsl(var(--violet-medium)); }
+  .bg-neutral-light { background: hsl(var(--neutral-light)); }
+  
+  /* Legacy earth- classes mapped to new colors for compatibility */
+  .bg-earth-sand { background: hsl(var(--neutral-light)); }
+  .bg-earth-sage { background: hsl(var(--lime-soft)); }
+  .bg-earth-clay { background: hsl(var(--violet-soft)); }
+  .bg-earth-stone { background: hsl(var(--muted)); }
+  .text-earth-wood { color: hsl(var(--foreground)); }
+}
+
+/* Animations - Subtle and refined */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 2.5s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.35s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.25s ease-out forwards;
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Safe area padding for mobile */
+.safe-area-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+}
+
+.safe-area-top {
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
+}
+
+/* Refined shadows */
+.shadow-clean {
+  box-shadow: 
+    0 1px 2px hsl(240 10% 20% / 0.04),
+    0 4px 12px hsl(240 10% 20% / 0.06);
+}
+
+.shadow-clean-lg {
+  box-shadow: 
+    0 2px 4px hsl(240 10% 20% / 0.04),
+    0 8px 24px hsl(240 10% 20% / 0.08);
+}
+
+/* Legacy shadow classes */
+.shadow-montessori {
+  box-shadow: 
+    0 1px 2px hsl(240 10% 20% / 0.04),
+    0 4px 12px hsl(240 10% 20% / 0.06);
+}
+
+.shadow-montessori-lg {
+  box-shadow: 
+    0 2px 4px hsl(240 10% 20% / 0.04),
+    0 8px 24px hsl(240 10% 20% / 0.08);
+}
