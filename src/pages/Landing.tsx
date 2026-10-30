@@ -72,7 +72,7 @@ export default function Landing() {
       const { data, error } = await supabase.functions.invoke("answer", {
         body: { 
           question, 
-          ageRange: "4-6",
+          ageRange: "5-6",
           depthLevel: 1,
           conversationHistory: [],
         },
