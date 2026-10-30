@@ -1,3 +1,14 @@
+<p align="center"><img src="docs/brand/banner.png" alt="Ask Wuai: kids keep asking but why? Now they can Ask Wuai." width="100%"></p>
+
+<p align="center">
+[![License: MIT](https://img.shields.io/badge/License-MIT-2DA05A?style=flat-square&labelColor=0F172A)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=0F172A)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=0F172A)](https://supabase.com/)
+[![Live: askwuai.com](https://img.shields.io/badge/Live-askwuai.com-9B59D0?style=flat-square&logo=googlechrome&logoColor=white)](https://askwuai.com)
+</p>
+
 # Little Thinker AI (Wuai)
 
 **Wuai** is a mobile-first children’s learning app for ages roughly 3–12. Kids ask questions by voice or text and get age-appropriate spoken answers with educational images. Parents manage child profiles, settings, and screen-time limits.
