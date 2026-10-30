@@ -26,6 +26,164 @@ const providerModels: Record<string, { gateway: string; model: string }> = {
   "perplexity": { gateway: "perplexity", model: "sonar" },
 };
 
+
+const ALLOWED_AGE_RANGES = new Set(Object.keys(baseSentenceCounts));
+const ALLOWED_PROVIDERS = new Set(Object.keys(providerModels));
+const MAX_QUESTION_CHARS = 2000;
+const MAX_CHILD_NAME_CHARS = 80;
+const MAX_HISTORY_MESSAGES = 20;
+const MAX_HISTORY_CONTENT_CHARS = 4000;
+const MIN_DEPTH = 1;
+const MAX_DEPTH = 4;
+const MIN_ANSWER_LENGTH = 0.5;
+const MAX_ANSWER_LENGTH = 2;
+
+type HistoryMessage = { role?: unknown; content?: unknown };
+
+function jsonError(message: string, status = 400): Response {
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
+/** Validate and normalise the answer Edge Function body. Returns 400 Response on bad input. */
+function parseAnswerBody(raw: unknown):
+  | {
+      ok: true;
+      question: string;
+      ageRange: string;
+      depthLevel: number;
+      aiProvider: string;
+      conversationHistory: { role: string; content: string }[];
+      answerLength: number;
+      childName: string;
+    }
+  | { ok: false; response: Response } {
+  if (raw === null || typeof raw !== "object" || Array.isArray(raw)) {
+    return { ok: false, response: jsonError("Request body must be a JSON object") };
+  }
+  const body = raw as Record<string, unknown>;
+
+  if (typeof body.question !== "string") {
+    return { ok: false, response: jsonError("question must be a non-empty string") };
+  }
+  const question = body.question.trim();
+  if (!question) {
+    return { ok: false, response: jsonError("question must be a non-empty string") };
+  }
+  if (question.length > MAX_QUESTION_CHARS) {
+    return {
+      ok: false,
+      response: jsonError(`question must be at most ${MAX_QUESTION_CHARS} characters`),
+    };
+  }
+
+  const ageRange =
+    typeof body.ageRange === "string" && ALLOWED_AGE_RANGES.has(body.ageRange)
+      ? body.ageRange
+      : null;
+  if (!ageRange) {
+    return {
+      ok: false,
+      response: jsonError(
+        `ageRange must be one of: ${[...ALLOWED_AGE_RANGES].join(", ")}`,
+      ),
+    };
+  }
+
+  // Unknown provider → 400 (document: reject, do not silently coerce)
+  if (body.aiProvider !== undefined && body.aiProvider !== null) {
+    if (typeof body.aiProvider !== "string" || !ALLOWED_PROVIDERS.has(body.aiProvider)) {
+      return {
+        ok: false,
+        response: jsonError(
+          `aiProvider must be one of: ${[...ALLOWED_PROVIDERS].join(", ")}`,
+        ),
+      };
+    }
+  }
+  const aiProvider =
+    typeof body.aiProvider === "string" ? body.aiProvider : "gpt";
+
+  let depthLevel = 1;
+  if (body.depthLevel !== undefined && body.depthLevel !== null) {
+    if (typeof body.depthLevel !== "number" || !Number.isFinite(body.depthLevel)) {
+      return { ok: false, response: jsonError("depthLevel must be a number from 1 to 4") };
+    }
+    depthLevel = Math.round(body.depthLevel);
+    if (depthLevel < MIN_DEPTH || depthLevel > MAX_DEPTH) {
+      return { ok: false, response: jsonError("depthLevel must be a number from 1 to 4") };
+    }
+  }
+
+  let answerLength = 1.0;
+  if (body.answerLength !== undefined && body.answerLength !== null) {
+    if (typeof body.answerLength !== "number" || !Number.isFinite(body.answerLength)) {
+      return {
+        ok: false,
+        response: jsonError(
+          `answerLength must be a number between ${MIN_ANSWER_LENGTH} and ${MAX_ANSWER_LENGTH}`,
+        ),
+      };
+    }
+    answerLength = Math.min(
+      MAX_ANSWER_LENGTH,
+      Math.max(MIN_ANSWER_LENGTH, body.answerLength),
+    );
+  }
+
+  let childName = "";
+  if (body.childName !== undefined && body.childName !== null) {
+    if (typeof body.childName !== "string") {
+      return { ok: false, response: jsonError("childName must be a string") };
+    }
+    childName = body.childName.trim().slice(0, MAX_CHILD_NAME_CHARS);
+  }
+
+  let conversationHistory: { role: string; content: string }[] = [];
+  if (body.conversationHistory !== undefined && body.conversationHistory !== null) {
+    if (!Array.isArray(body.conversationHistory)) {
+      return { ok: false, response: jsonError("conversationHistory must be an array") };
+    }
+    const allowedRoles = new Set(["user", "assistant", "system"]);
+    const sliced = body.conversationHistory.slice(-MAX_HISTORY_MESSAGES);
+    for (const item of sliced as HistoryMessage[]) {
+      if (!item || typeof item !== "object") {
+        return {
+          ok: false,
+          response: jsonError("conversationHistory entries must be objects with role and content"),
+        };
+      }
+      if (typeof item.role !== "string" || !allowedRoles.has(item.role)) {
+        return {
+          ok: false,
+          response: jsonError("conversationHistory role must be user, assistant, or system"),
+        };
+      }
+      if (typeof item.content !== "string") {
+        return {
+          ok: false,
+          response: jsonError("conversationHistory content must be a string"),
+        };
+      }
+      const content = item.content.slice(0, MAX_HISTORY_CONTENT_CHARS);
+      conversationHistory.push({ role: item.role, content });
+    }
+  }
+
+  return {
+    ok: true,
+    question,
+    ageRange,
+    depthLevel,
+    aiProvider,
+    conversationHistory,
+    answerLength,
+    childName,
+  };
+}
+
 async function callLovableAI(messages: any[], model: string, apiKey: string) {
   const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
@@ -110,8 +268,27 @@ serve(async (req) => {
   }
 
   try {
-    const { question, ageRange, depthLevel = 1, aiProvider = "gpt", conversationHistory = [], answerLength = 1.0, childName = "" } = await req.json();
-    
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
+      return jsonError("Request body must be valid JSON");
+    }
+
+    const parsed = parseAnswerBody(rawBody);
+    if (!parsed.ok) {
+      return parsed.response;
+    }
+    const {
+      question,
+      ageRange,
+      depthLevel,
+      aiProvider,
+      conversationHistory,
+      answerLength,
+      childName,
+    } = parsed;
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     
