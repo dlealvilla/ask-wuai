@@ -28,6 +28,7 @@ const providerModels: Record<string, { gateway: string; model: string }> = {
 
 
 const ALLOWED_AGE_RANGES = new Set(Object.keys(baseSentenceCounts));
+const DEFAULT_AGE_RANGE = "5-6";
 const ALLOWED_PROVIDERS = new Set(Object.keys(providerModels));
 const MAX_QUESTION_CHARS = 2000;
 const MAX_CHILD_NAME_CHARS = 80;
@@ -79,18 +80,12 @@ function parseAnswerBody(raw: unknown):
     };
   }
 
+  // Unknown or missing ageRange falls back to the default band (matches
+  // getAgeDescription) so older child profiles stored as e.g. "4-6" keep working.
   const ageRange =
     typeof body.ageRange === "string" && ALLOWED_AGE_RANGES.has(body.ageRange)
       ? body.ageRange
-      : null;
-  if (!ageRange) {
-    return {
-      ok: false,
-      response: jsonError(
-        `ageRange must be one of: ${[...ALLOWED_AGE_RANGES].join(", ")}`,
-      ),
-    };
-  }
+      : DEFAULT_AGE_RANGE;
 
   // Unknown provider → 400 (document: reject, do not silently coerce)
   if (body.aiProvider !== undefined && body.aiProvider !== null) {
@@ -146,7 +141,8 @@ function parseAnswerBody(raw: unknown):
     if (!Array.isArray(body.conversationHistory)) {
       return { ok: false, response: jsonError("conversationHistory must be an array") };
     }
-    const allowedRoles = new Set(["user", "assistant", "system"]);
+    // The browser must not be able to inject system messages into the prompt.
+    const allowedRoles = new Set(["user", "assistant"]);
     const sliced = body.conversationHistory.slice(-MAX_HISTORY_MESSAGES);
     for (const item of sliced as HistoryMessage[]) {
       if (!item || typeof item !== "object") {
@@ -158,7 +154,7 @@ function parseAnswerBody(raw: unknown):
       if (typeof item.role !== "string" || !allowedRoles.has(item.role)) {
         return {
           ok: false,
-          response: jsonError("conversationHistory role must be user, assistant, or system"),
+          response: jsonError("conversationHistory role must be user or assistant"),
         };
       }
       if (typeof item.content !== "string") {

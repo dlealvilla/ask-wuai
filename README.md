@@ -85,7 +85,7 @@ curl -s -o /tmp/out -w "%{http_code}" -X POST http://127.0.0.1:54321/functions/v
 # expect 400 and {"error":"..."}
 ```
 
-Unknown `aiProvider` / absurd `depthLevel` also return `400` with a short JSON `{ "error": "..." }` (they are rejected, not silently coerced). Valid client payloads from `MainView.fetchAnswer` are unchanged.
+Unknown `aiProvider` / absurd `depthLevel` / a `conversationHistory` entry whose role is not `user` or `assistant` also return `400` with a short JSON `{ "error": "..." }` (they are rejected, not silently coerced). An unknown `ageRange` (e.g. a legacy `4-6` profile) falls back to `5-6`. Valid client payloads from `MainView.fetchAnswer` are unchanged.
 
 
 ---
