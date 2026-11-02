@@ -72,6 +72,22 @@ Supabase
 
 Edge functions in this repo: `answer`, `articulate`, `media`, `generate-image`, `unsplash`, `transcribe`, `elevenlabs-tts`.
 
+### Local check for the `answer` Edge Function
+
+With the Supabase CLI and secrets configured:
+
+```bash
+supabase functions serve answer --env-file .env
+# empty question should 400:
+curl -s -o /tmp/out -w "%{http_code}" -X POST http://127.0.0.1:54321/functions/v1/answer \
+  -H "Content-Type: application/json" \
+  -d '{"question":"","ageRange":"5-6"}'
+# expect 400 and {"error":"..."}
+```
+
+Unknown `aiProvider` / absurd `depthLevel` / a `conversationHistory` entry whose role is not `user` or `assistant` also return `400` with a short JSON `{ "error": "..." }` (they are rejected, not silently coerced). An unknown `ageRange` (e.g. a legacy `4-6` profile) falls back to `5-6`. Valid client payloads from `MainView.fetchAnswer` are unchanged.
+
+
 ---
 
 ## Local setup
