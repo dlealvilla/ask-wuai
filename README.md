@@ -158,7 +158,7 @@ Live product at [askwuai.com](https://askwuai.com). Early consumer / incubator d
 
 ## More from Daniel
 
-- Public LMS writing prototype (source): [github.com/dlealvilla/lms_ai](https://github.com/dlealvilla/lms_ai)
+- Public LMS writing prototype (source): [github.com/dlealvilla/wildmind-ai-for-education](https://github.com/dlealvilla/wildmind-ai-for-education)
 
 ---
 
