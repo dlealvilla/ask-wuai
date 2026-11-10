@@ -14,7 +14,7 @@ The frontend is React + Vite. Paid AI, speech and image calls live in Supabase E
 
 ## Picking something to work on
 
-- Look for issues labelled [good first issue](https://github.com/dlealvilla/askwuai/labels/good%20first%20issue) or [help wanted](https://github.com/dlealvilla/askwuai/labels/help%20wanted).
+- Look for issues labelled [good first issue](https://github.com/dlealvilla/ask-wuai/labels/good%20first%20issue) or [help wanted](https://github.com/dlealvilla/ask-wuai/labels/help%20wanted).
 - Comment on the issue before you start so work isn't duplicated.
 - Have an idea that isn't listed? Open an issue first so we can talk it through.
 

@@ -6,7 +6,7 @@ Nano Banana Pro API provides faster and lower-cost image generation compared to 
 ## Setup Steps
 
 ### 1. Get API Key
-1. Sign up at [Nano Banana Pro](https://nanobananaproapi.org)
+1. Sign up for Nano Banana Pro (note: its former site, nanobananaproapi.org, no longer responds)
 2. Generate an API key from your dashboard
 3. Add it to Supabase environment variables
 
@@ -15,7 +15,7 @@ In Supabase Dashboard → Project Settings → Edge Functions → Secrets:
 - Add: `NANO_BANANA_API_KEY` = `your-api-key-here`
 
 ### 3. API Endpoint (Update when confirmed)
-The current implementation uses a placeholder endpoint. Once you have the API key, check the official documentation at [nanobananaproapi.org/docs](https://nanobananaproapi.org/docs) to confirm:
+The current implementation uses a placeholder endpoint. Once you have the API key, check the provider's current official documentation to confirm:
 - Exact endpoint URL
 - Request format
 - Response format
