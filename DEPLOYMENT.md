@@ -38,7 +38,7 @@ This project can be deployed to various platforms. Here are the recommended opti
 ## Option 3: Cloudflare Pages
 
 ### Setup:
-1. Connect GitHub repo at [dash.cloudflare.com](https://dash.cloudflare.com)
+1. Connect the GitHub repo in the Cloudflare dashboard (see [Cloudflare Pages Git integration](https://developers.cloudflare.com/pages/get-started/git-integration/))
 2. Select this repository
 3. Configure:
    - **Build command**: `npm run build`
