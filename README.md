@@ -15,8 +15,7 @@
 
 **Wuai** is a mobile-first children’s learning app for ages roughly 3–12. Kids ask questions by voice or text and get age-appropriate spoken answers with educational images. Parents manage child profiles, settings, and screen-time limits.
 
-> **Live demo:** [https://askwuai.com](https://askwuai.com)  
-> **In-app technical docs (hosted):** [https://askwuai.com/documentation.html](https://askwuai.com/documentation.html)
+> **Live demo:** [https://askwuai.com](https://askwuai.com)
 
 Built with **Lovable** + **Supabase** (Auth, Postgres, Edge Functions). The frontend is a React + Vite SPA; paid AI / TTS / STT calls run only in Deno Edge Functions so provider secrets never sit in the browser.
 
@@ -142,10 +141,10 @@ askwuai/
 │   ├── functions/       # Deno Edge Functions
 │   └── migrations/
 ├── docs/screenshots/    # README screenshots
-├── DOCUMENTATION.md     # Full technical narrative
+├── DOCUMENTATION.md     # Full technical narrative (repo only; not served on askwuai.com)
 ├── CODEBASE_OVERVIEW.md
 ├── .env.example
-└── public/documentation.html
+└── public/documentation.html  # Old HTML snapshot of DOCUMENTATION.md (no longer served on askwuai.com)
 ```
 
 ---
