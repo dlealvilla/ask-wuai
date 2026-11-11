@@ -247,7 +247,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({ onChildrenClick }) => {
                             <>
                               <div className="px-2 py-1.5 text-xs font-semibold text-primary flex items-center gap-1 border-t mt-1 pt-2">
                                 <Sparkles className="w-3 h-3" />
-                                Premium Voices
+                                High-quality voices
                               </div>
                               
                               {femaleElevenLabs.length > 0 && (
@@ -315,7 +315,7 @@ export const AppMenu: React.FC<AppMenuProps> = ({ onChildrenClick }) => {
                     {settings.selectedVoice && isElevenLabsVoice(settings.selectedVoice) && (
                       <Badge variant="secondary" className="text-[10px] gap-1">
                         <Sparkles className="w-2.5 h-2.5" />
-                        Premium voice
+                        High-quality voice
                       </Badge>
                     )}
                   </div>
