@@ -25,7 +25,7 @@
 ### Key Capabilities
 - Voice input (speech-to-text)
 - AI-generated educational answers
-- Text-to-speech output (native + premium ElevenLabs voices)
+- Text-to-speech output (native + ElevenLabs voices)
 - AI-generated educational images (realistic, cartoon, diagram styles)
 - Multi-child profile support
 - Parent controls and settings
@@ -77,7 +77,7 @@
   - `openai/gpt-5-mini` (fallback)
 - **OpenAI Whisper** for speech-to-text (iOS transcription)
 - **Perplexity API** (optional provider with image search)
-- **ElevenLabs** for premium text-to-speech
+- **ElevenLabs** for text-to-speech
 
 ### Typography
 - **DM Sans** - Primary sans-serif font
@@ -103,7 +103,7 @@ src/
 ├── hooks/
 │   ├── useVoiceInput.ts     # Cross-platform voice input
 │   ├── useSpeechSynthesis.ts # Native TTS
-│   ├── useElevenLabsTTS.ts   # Premium TTS
+│   ├── useElevenLabsTTS.ts   # ElevenLabs TTS
 │   └── useAuth.ts           # Authentication
 ├── pages/
 │   ├── Index.tsx        # Main app entry
@@ -121,7 +121,7 @@ supabase/functions/      # Edge functions (backend)
 ├── generate-image/      # Single image generation
 ├── media/               # MECE image plan generation
 ├── transcribe/          # Audio transcription (Whisper)
-├── elevenlabs-tts/      # Premium voice synthesis
+├── elevenlabs-tts/      # ElevenLabs voice synthesis
 └── unsplash/            # (legacy) Photo search
 ```
 
@@ -210,7 +210,7 @@ Three AI-generated images per answer:
 
 ### 5. Text-to-Speech
 - **Native voices**: Browser's speechSynthesis API
-- **Premium voices**: ElevenLabs with 6 curated child-friendly voices
+- **ElevenLabs voices**: ElevenLabs with 6 curated child-friendly voices
 - **Speed control**: 0.75x to 1.25x range
 - **iOS resilience**: Chunked utterances to prevent 15s timeout
 
@@ -386,7 +386,7 @@ Three AI-generated images per answer:
 
 ---
 
-### `/elevenlabs-tts` - Premium Text-to-Speech
+### `/elevenlabs-tts` - ElevenLabs Text-to-Speech
 
 **Purpose**: Generate high-quality spoken audio
 
@@ -545,7 +545,7 @@ export const useCustomRecorder = isIOS;
 - Chunked utterances for iOS (prevents 15s timeout)
 - Silent utterance on first interaction to unlock iOS audio
 
-**ElevenLabs Premium Voices**:
+**ElevenLabs Voices**:
 ```typescript
 export const ELEVENLABS_VOICES = [
   { id: "EXAVITQu4vr4xnSDxMaL", name: "Sarah", gender: "female" },
@@ -748,7 +748,7 @@ VITE_SUPABASE_PROJECT_ID=YOUR_PROJECT_REF
 LOVABLE_API_KEY=***        # Lovable AI Gateway
 OPENAI_API_KEY=***         # Whisper transcription
 PERPLEXITY_API_KEY=***     # Optional: Perplexity provider
-ELEVENLABS_API_KEY=***     # Premium TTS
+ELEVENLABS_API_KEY=***     # ElevenLabs TTS
 UNSPLASH_ACCESS_KEY=***    # Legacy: photo search
 ```
 
@@ -769,7 +769,7 @@ UNSPLASH_ACCESS_KEY=***    # Legacy: photo search
 ### Key Hooks
 - `useVoiceInput.ts`: Cross-platform voice input
 - `useSpeechSynthesis.ts`: Native TTS
-- `useElevenLabsTTS.ts`: Premium TTS
+- `useElevenLabsTTS.ts`: ElevenLabs TTS
 - `useAuth.ts`: Authentication state
 
 ### Edge Functions
@@ -778,7 +778,7 @@ UNSPLASH_ACCESS_KEY=***    # Legacy: photo search
 - `generate-image/index.ts`: Single image generation
 - `media/index.ts`: MECE image planning
 - `transcribe/index.ts`: Audio transcription
-- `elevenlabs-tts/index.ts`: Premium TTS
+- `elevenlabs-tts/index.ts`: ElevenLabs TTS
 
 ---
 

@@ -38,7 +38,7 @@ src/
 ├── hooks/
 │   ├── useVoiceInput.ts      # Voice recognition logic
 │   ├── useSpeechSynthesis.ts # Text-to-speech (native)
-│   ├── useElevenLabsTTS.ts   # Premium TTS (ElevenLabs)
+│   ├── useElevenLabsTTS.ts   # ElevenLabs TTS
 │   └── useAuth.ts            # Authentication
 ├── contexts/
 │   └── SettingsContext.tsx   # Global app settings
@@ -56,7 +56,7 @@ supabase/functions/
 ├── articulate/      # Rephrases questions for clarity
 ├── transcribe/      # Converts audio to text (iOS)
 ├── generate-image/  # Creates AI images
-├── elevenlabs-tts/  # Premium text-to-speech
+├── elevenlabs-tts/  # ElevenLabs text-to-speech
 └── media/           # Media management
 ```
 
@@ -125,7 +125,7 @@ supabase/functions/
    - Limited voice quality
    - iOS requires special handling (chunking)
 
-2. **ElevenLabs** (`useElevenLabsTTS`): Premium TTS
+2. **ElevenLabs** (`useElevenLabsTTS`): ElevenLabs TTS
    - High-quality, natural voices
    - Requires API call
    - Child-friendly voice selection

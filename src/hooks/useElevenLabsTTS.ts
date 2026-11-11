@@ -151,7 +151,7 @@ export const useElevenLabsTTS = (): UseElevenLabsTTSReturn => {
             errorMsg.toLowerCase().includes("quota") ||
             errorMsg.toLowerCase().includes("subscription")) {
           markElevenLabsUnavailable();
-          throw new Error("ElevenLabs credits exhausted or unavailable");
+          throw new Error("This voice isn't available right now. I'll use the device voice instead.");
         }
         
         throw new Error(errorMsg);

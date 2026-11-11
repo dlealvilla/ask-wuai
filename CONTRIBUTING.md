@@ -10,7 +10,7 @@ Thanks for wanting to help! Ask Wuai answers kids' "but why?" questions out loud
 4. Run the app: `npm run dev`
 5. Before opening a PR, run `npm run lint` and `npm run build`.
 
-The frontend is React + Vite. Paid AI, speech and image calls live in Supabase Edge Functions under `supabase/functions/`, so provider keys never reach the browser. Please keep it that way.
+The frontend is React + Vite. AI, speech and image calls live in Supabase Edge Functions under `supabase/functions/`, so provider keys never reach the browser. Please keep it that way.
 
 ## Picking something to work on
 

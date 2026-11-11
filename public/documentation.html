@@ -325,7 +325,7 @@
     <ul>
       <li>Voice input (speech-to-text)</li>
       <li>AI-generated educational answers</li>
-      <li>Text-to-speech output (native + premium ElevenLabs voices)</li>
+      <li>Text-to-speech output (native + ElevenLabs voices)</li>
       <li>AI-generated educational images (realistic, cartoon, diagram styles)</li>
       <li>Multi-child profile support</li>
       <li>Parent controls and settings</li>
@@ -386,7 +386,7 @@
       <tr><td>Lovable AI Gateway</td><td>google/gemini-2.5-flash-lite</td><td>Articulation, planning</td></tr>
       <tr><td>Lovable AI Gateway</td><td>google/gemini-2.5-flash-image-preview</td><td>Image generation</td></tr>
       <tr><td>OpenAI</td><td>whisper-1</td><td>iOS transcription</td></tr>
-      <tr><td>ElevenLabs</td><td>eleven_turbo_v2_5</td><td>Premium TTS</td></tr>
+      <tr><td>ElevenLabs</td><td>eleven_turbo_v2_5</td><td>ElevenLabs TTS</td></tr>
     </table>
     
     <h3>Typography</h3>
@@ -415,7 +415,7 @@ src/
 ├── hooks/
 │   ├── useVoiceInput.ts     # Cross-platform voice input
 │   ├── useSpeechSynthesis.ts # Native TTS
-│   ├── useElevenLabsTTS.ts   # Premium TTS
+│   ├── useElevenLabsTTS.ts   # ElevenLabs TTS
 │   └── useAuth.ts           # Authentication
 ├── pages/
 │   ├── Index.tsx        # Main app entry
@@ -433,7 +433,7 @@ supabase/functions/      # Edge functions (backend)
 ├── generate-image/      # Single image generation
 ├── media/               # MECE image plan generation
 ├── transcribe/          # Audio transcription (Whisper)
-├── elevenlabs-tts/      # Premium voice synthesis
+├── elevenlabs-tts/      # ElevenLabs voice synthesis
 └── unsplash/            # (legacy) Photo search</pre>
 
     <h3>Data Flow</h3>
@@ -536,7 +536,7 @@ supabase/functions/      # Edge functions (backend)
     <h3>5. Text-to-Speech</h3>
     <ul>
       <li><strong>Native voices:</strong> Browser's speechSynthesis API</li>
-      <li><strong>Premium voices:</strong> ElevenLabs with 6 curated child-friendly voices</li>
+      <li><strong>ElevenLabs voices:</strong> ElevenLabs with 6 curated child-friendly voices</li>
       <li><strong>Speed control:</strong> 0.75x to 1.25x range</li>
       <li><strong>iOS resilience:</strong> Chunked utterances to prevent 15s timeout</li>
     </ul>
@@ -584,7 +584,7 @@ supabase/functions/      # Edge functions (backend)
     <p><strong>Purpose:</strong> Convert audio to text (iOS voice input)</p>
     <p><strong>Service:</strong> OpenAI Whisper API (<code>whisper-1</code>)</p>
     
-    <h3>/elevenlabs-tts - Premium Text-to-Speech</h3>
+    <h3>/elevenlabs-tts - ElevenLabs Text-to-Speech</h3>
     <p><strong>Purpose:</strong> Generate high-quality spoken audio</p>
     <p><strong>Service:</strong> ElevenLabs API (<code>eleven_turbo_v2_5</code>)</p>
   </section>
@@ -671,7 +671,7 @@ export const useCustomRecorder = isIOS;</pre>
       <li>OpenAI Whisper transcribes and returns text</li>
     </ol>
     
-    <h3>ElevenLabs Premium Voices</h3>
+    <h3>ElevenLabs Voices</h3>
     <table>
       <tr><th>ID</th><th>Name</th><th>Gender</th></tr>
       <tr><td>EXAVITQu4vr4xnSDxMaL</td><td>Sarah</td><td>Female</td></tr>
@@ -861,7 +861,7 @@ VITE_SUPABASE_PROJECT_ID=[project-id]</pre>
     <pre>LOVABLE_API_KEY=***        # Lovable AI Gateway
 OPENAI_API_KEY=***         # Whisper transcription
 PERPLEXITY_API_KEY=***     # Optional: Perplexity provider
-ELEVENLABS_API_KEY=***     # Premium TTS
+ELEVENLABS_API_KEY=***     # ElevenLabs TTS
 UNSPLASH_ACCESS_KEY=***    # Legacy: photo search</pre>
   </section>
 
