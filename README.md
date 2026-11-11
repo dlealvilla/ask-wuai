@@ -18,7 +18,7 @@
 > **Live demo:** [https://askwuai.com](https://askwuai.com)  
 > **In-app technical docs (hosted):** [https://askwuai.com/documentation.html](https://askwuai.com/documentation.html)
 
-Built with **Lovable** + **Supabase** (Auth, Postgres, Edge Functions). The frontend is a React + Vite SPA; paid AI / TTS / STT calls run only in Deno Edge Functions so provider secrets never sit in the browser.
+Built with **Lovable** + **Supabase** (Auth, Postgres, Edge Functions). The frontend is a React + Vite SPA; AI, speech and image calls run only in Deno Edge Functions so provider secrets never sit in the browser.
 
 ---
 
@@ -34,7 +34,7 @@ Built with **Lovable** + **Supabase** (Auth, Postgres, Edge Functions). The fron
 
 - **Voice + text Q&A** — speech recognition / Whisper transcription, typed fallback
 - **Age-aware answers** — prompts adjust complexity for the child’s age band
-- **Spoken replies** — native speech synthesis plus premium ElevenLabs voices
+- **Spoken replies** — native speech synthesis plus ElevenLabs voices
 - **Educational media** — AI-generated images (and Unsplash support) alongside answers
 - **Multi-child profiles** — parent-managed children, preferences, and history
 - **Parent controls** — PIN-gated settings, voice selection, sand timer / screen time
@@ -124,7 +124,7 @@ npm run dev
 | `LOVABLE_API_KEY` | Lovable AI Gateway (answers, media, images) |
 | `PERPLEXITY_API_KEY` | Optional answer provider |
 | `OPENAI_API_KEY` | Whisper transcription |
-| `ELEVENLABS_API_KEY` | Premium TTS |
+| `ELEVENLABS_API_KEY` | ElevenLabs TTS |
 | `UNSPLASH_ACCESS_KEY` | Stock image search |
 | `NANO_BANANA_API_KEY` | Optional alternate image provider (see `NANO_BANANA_API_SETUP.md`) |
 
