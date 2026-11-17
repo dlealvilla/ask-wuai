@@ -1,4 +1,4 @@
-# Deployment Guide - Detached from Lovable
+# Deployment guide
 
 This project can be deployed to various platforms. Here are the recommended options:
 
@@ -12,7 +12,6 @@ This project can be deployed to various platforms. Here are the recommended opti
 ### Automatic Deployment:
 - Push to `main` branch → Auto-deploys
 - Preview deployments for PRs
-- Free tier includes custom domains
 
 ### Build Settings:
 - **Build Command**: `npm run build`

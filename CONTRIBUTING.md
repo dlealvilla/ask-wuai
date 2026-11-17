@@ -1,12 +1,12 @@
 # Contributing to Ask Wuai
 
-Thanks for wanting to help! Ask Wuai answers kids' "but why?" questions out loud, with age-appropriate words and pictures. Contributions of any size are welcome.
+Thanks for wanting to help! Ask Wuai answers children’s “but why?” questions out loud, with age-appropriate words and pictures. Contributions of any size are welcome.
 
 ## Getting started
 
 1. Fork the repo and clone your fork.
 2. Install dependencies: `npm install`
-3. Copy your Supabase project URL and anon key into a local `.env` (see `DEPLOYMENT.md` for the variables).
+3. Copy your Supabase project URL and anon key into a local `.env` (see `docs/DEPLOYMENT.md` for the variables).
 4. Run the app: `npm run dev`
 5. Before opening a PR, run `npm run lint` and `npm run build`.
 
