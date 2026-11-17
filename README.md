@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/brand/banner.png" alt="Ask Wuai: kids keep asking but why? Now they can Ask Wuai." width="100%"></p>
+<p align="center"><img src="docs/brand/banner.png" alt="Ask Wuai: children keep asking but why? Now they can Ask Wuai." width="100%"></p>
 
 <p align="center">
 
@@ -11,9 +11,9 @@
 
 </p>
 
-# Little Thinker AI (Wuai)
+# Ask Wuai
 
-**Wuai** is a mobile-first children’s learning app for ages roughly 3–12. Kids ask questions by voice or text and get age-appropriate spoken answers with educational images. Parents manage child profiles, settings, and screen-time limits.
+**Ask Wuai** is a mobile-first children’s learning app for ages roughly 3–12. Children ask questions by voice or text and get age-appropriate spoken answers with educational images. Parents manage child profiles, settings, and screen-time limits.
 
 > **Live demo:** [https://askwuai.com](https://askwuai.com)
 
@@ -125,7 +125,6 @@ npm run dev
 | `OPENAI_API_KEY` | Whisper transcription |
 | `ELEVENLABS_API_KEY` | ElevenLabs TTS |
 | `UNSPLASH_ACCESS_KEY` | Stock image search |
-| `NANO_BANANA_API_KEY` | Optional alternate image provider (see `NANO_BANANA_API_SETUP.md`) |
 
 Also set `project_id` in `supabase/config.toml` to **your** project ref (placeholder in this tree: `YOUR_PROJECT_REF`).
 
@@ -134,17 +133,20 @@ Also set `project_id` in `supabase/config.toml` to **your** project ref (placeho
 ## Project structure
 
 ```
-askwuai/
+ask-wuai/
 ├── src/                 # React / Vite application
 ├── supabase/
 │   ├── config.toml
 │   ├── functions/       # Deno Edge Functions
 │   └── migrations/
-├── docs/screenshots/    # README screenshots
-├── DOCUMENTATION.md     # Full technical narrative (repo only; not served on askwuai.com)
-├── CODEBASE_OVERVIEW.md
+├── docs/
+│   ├── screenshots/     # README screenshots
+│   └── DEPLOYMENT.md    # Hosting and environment notes
 ├── .env.example
-└── public/documentation.html  # Old HTML snapshot of DOCUMENTATION.md (no longer served on askwuai.com)
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── SECURITY.md
+└── LICENSE
 ```
 
 ---
@@ -163,4 +165,4 @@ Live product at [askwuai.com](https://askwuai.com). Early consumer / incubator d
 
 ## License
 
-TODO — choose and add a license file before treating this as a formal open-source release.
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
