@@ -359,7 +359,7 @@ export const ParentSettings: React.FC<ParentSettingsProps> = ({
                   <span>60 min</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Shows a sand timer that helps kids see how much time they have left.
+                  Shows a sand timer that helps children see how much time they have left.
                 </p>
               </div>
             </div>
